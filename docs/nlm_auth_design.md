@@ -83,6 +83,13 @@ profile が生きている限り、ユーザーは Google ログインを一切�
 どちらでも出口は同じ（採取 Cookie → クラウド profile 注入）。`remote_login_helper.sh` は
 `NLM_REMOTE_PROVIDER` で切り替えられる形にし、provider 確定までは**手動 Cookie 投入**でも動く。
 
+### 決定（2026-06-21）
+
+**A. Browserbase（Free 枠）を採用。** auth 更新は月 1〜2 回・数分なので Free 枠（1ブラウザ時間/月）で収まる見込み。
+Free 枠の 1 セッション 15 分上限で詰まるようなら Developer($20/月・6時間セッション) に上げる。
+実装は `scripts/browserbase_login.py`（単一プロセスでセッション保持→ライブビュー URL→ログイン待ち→Cookie 採取）
+＋ `scripts/remote_login_helper.sh` の browserbase 分岐（header/netscape の順に注入を試行）。
+
 ### 注意（正直なリスク）
 
 - **DC IP からの Google ログインは追加の本人確認（2FA / デバイス確認）を求められやすい**。

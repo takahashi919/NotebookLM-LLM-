@@ -20,25 +20,38 @@ bash scripts/nlm_auth_status.sh        # valid なら exit 0、無効なら exit
 
 ---
 
-## 方式 A: ホスト型ライブビュー（推奨・スマホ最適）
+## 方式 A: Browserbase ライブビュー（推奨・スマホ最適）
 
-例: Browserbase など「ライブビュー URL を返すリモートブラウザ」。
+Free 枠で運用。`scripts/browserbase_login.py` が**単一プロセス**でセッションを保持するので、
+コマンドは 1 つ。途中でブラウザを閉じない（接続が切れるとセッションが終わる）。
 
-1. ローカル/クラウドで起動側を実行（`NLM_REMOTE_PROVIDER=browserbase` を `.env` に設定済み前提）:
-   ```bash
-   bash scripts/remote_login_helper.sh start
-   # → スマホで開くライブビュー URL を出力する
+### 事前準備（一度きり）
+
+1. [browserbase.com](https://www.browserbase.com) で無料登録 → API キーと Project ID を取得。
+2. `.env` を設定:
    ```
-2. **スマホでその URL を開く** → NotebookLM (https://notebooklm.google.com) を開く →
-   本物の Google ログイン画面でログイン（必要なら 2FA）。
-3. ログインできたら、起動側で Cookie を採取してクラウド profile に注入:
-   ```bash
-   bash scripts/remote_login_helper.sh capture
-   # → nlm login --manual --file で auth.json を更新 → nlm login --check
+   NLM_REMOTE_PROVIDER=browserbase
+   BROWSERBASE_API_KEY=bb_...
+   BROWSERBASE_PROJECT_ID=...
    ```
-4. ワーカーが `nlm-auth-needed` を外して保留依頼を再処理する（チャットに完了通知）。
+3. 依存を入れる: `pip install -r requirements.txt`（`connect_over_cdp` なので `playwright install` は不要）。
 
-> DC IP では Google が追加確認（デバイス確認・本人確認）を出すことがある。画面の指示に従えば通る。
+### 毎回（Cookie 切れ時のみ・数週間に一度）
+
+```bash
+bash scripts/remote_login_helper.sh start
+```
+
+1. 実行するとターミナルに **ライブビュー URL** が出る。
+2. **スマホでその URL を開く** → 表示された NotebookLM/Google の画面で本物の Google ログイン（必要なら 2FA）。
+3. ログインが検知されると自動で Cookie を採取 → クラウド profile に注入 →
+   `header` 形式 → 失敗時 `netscape` 形式の順で試し、`nlm login --check` まで通す。
+4. ワーカーが `nlm-auth-needed` を外して保留依頼を再処理（チャットに完了通知）。
+
+待ち時間の上限は既定 600 秒（Free 枠の 1 セッション 15 分=900 秒未満）。`.env` の `BB_LOGIN_TIMEOUT` で調整可。
+
+> ⚠️ DC IP では Google が追加確認（デバイス確認・本人確認）を出すことがある。画面の指示に従えば通る。
+> 15 分で終わらず何度もコケるなら Developer プラン($20/月・6時間セッション)に上げる。
 > 一度通れば数週間は再ログイン不要。
 
 ---

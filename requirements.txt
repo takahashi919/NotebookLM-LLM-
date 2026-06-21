@@ -1,0 +1,4 @@
+# Browserbase リモートブラウザ ログイン採取用（scripts/browserbase_login.py）
+# connect_over_cdp はリモート Chromium に接続するため、ローカルの `playwright install` は不要。
+requests>=2.31
+playwright>=1.40

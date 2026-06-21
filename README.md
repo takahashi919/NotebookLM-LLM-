@@ -91,6 +91,7 @@ scripts/
 ## 現状の到達点
 
 - [x] Phase 1 土台（移植スクリプト・Issue テンプレ・認証設計・チャット層仕様）
-- [ ] チャット層 bot の実装（仕様は `docs/ARCHITECTURE.md`。Discord/その他は要選定）
-- [ ] リモートブラウザ provider の選定（ホスト型ライブビュー or 自前 noVNC）
+- [x] リモートブラウザ provider 決定 = **Browserbase（Free 枠）**、ログイン採取の実装（`scripts/browserbase_login.py`）
+- [ ] Browserbase の実走テスト（要 API キー / 実機スマホ確認。`nlm login --file` の受理形式の確定含む）
+- [ ] チャット層 bot の実装 = **Discord 流用**（`takahashi919/-` の `hermes_discord_bot.py` を移植）
 - [ ] Phase 2〜4（Obsidian / X / 各AI API）
