@@ -29,3 +29,13 @@ venv/
 *.swp
 .idea/
 .vscode/
+
+# ── Obsidian Vault（端末固有の状態は同期しない）──────────────
+# 各PC/スマホで中身が違うファイル。これを同期すると競合の原因になる
+vault/.obsidian/workspace.json
+vault/.obsidian/workspace-mobile.json
+vault/.obsidian/workspace.json.bak
+vault/.obsidian/cache
+vault/.obsidian/.DS_Store
+# ゴミ箱・添付の一時物
+vault/.trash/
