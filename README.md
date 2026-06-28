@@ -12,7 +12,7 @@ NotebookLM を「情報収集と質問応答のエンジン」として使い、
 | # | 柱 | 状態 |
 |---|---|---|
 | 1 | **NotebookLM での情報収集 & 質問**（推論コスト削減） | 🚧 Phase 1（本リポジトリの現在地） |
-| 2 | 調査内容・ナレッジの **Obsidian 連携** | 🔜 Phase 2（設計のみ） |
+| 2 | 調査内容・ナレッジの **Obsidian 連携** | 🚧 Phase 2（Vault 雛形あり → [`vault/`](vault/README.md)） |
 | 3 | **X(Twitter) ブックマーク** → やりたいことリスト追加 | 🔜 Phase 3（設計のみ） |
 | 4 | 各生成AI の **API 連携** | 🔜 Phase 4（設計のみ） |
 
@@ -73,6 +73,8 @@ docs/
   research/
     README.md / TEMPLATE.md             ← 確定テキストの器・規約
     <topic>.md                          ← リサーチ結果（自動生成）
+vault/                                  ← Obsidian Vault（メモ・タスク管理 / 複数端末を GitHub 同期）
+  README.md / SETUP.md                  ← Vault の使い方・各PC/スマホの導入手順
 scripts/
   nlm_research.sh                       ← 単発クエリ→ research note 保存（移植）
   nlm_request_worker.sh                 ← Issue を拾って実行（移植＋オンデマンド認証化）
